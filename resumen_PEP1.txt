@@ -1,0 +1,175 @@
+Si p < alfa: se rechaza la hipótesis nula
+Si p > alfa: se falla al rechazar la hipótesis nula. 
+
+Error tipo I: rechazar H0 en favor de HA cuando H0 es en realidad verdadera.
+Error tipo II: no rechazar H0 en favor de HA cuando HA es en realidad verdadera.
+
+************ PRUEBA Z ************
+Para inferir acerca de las medias con una o dos muestras. Adecuada si queremos asegurar o descartar que la media de la población tiene un cierto valor hipotético. Las condiciones son:
+- La muestra debe tener al menos 30 observaciones. Si la muestra tiene menos de 30 observaciones, se debe conocer la varianza de la población.
+- Las observaciones deben ser independientes, es decir que la elección de una observación para la muestra no influye en la selección de las otras.
+- La población de donde se obtuvo la muestra sigue aproximadamente una distribución normal.
+
+En R: z.test
+
+************ PRUEBA T DE STUDENT ***************
+Utilizada para lo mismo que la prueba Z, sobre todo cuando no se conoce la desviación estándar de la población. 
+
+*** T DE STUDENT PARA UNA MUESTRA ***
+Condiciones que se deben cumplir:
+1. Las observaciones son independientes entre sí:
+	- Como las muestras fueron elegidas al azar, se puede asumir que son independientes.
+	- Como las muestras fueron obtenidas mediante un estudio confiable, y represente menos del 10% de la población total, se puede asumir que las observaciones son independientes.
+2. Las observaciones provienen de una distribución cercana a la normal:
+	- Crear un gráfico Q-Q y ver si existen valores atípicos. No se observan valores atípicos que se alejen de la región aceptable.
+	- También se puede aplicar una prieba de Shapiro-Wilk: normalidad <- shapiro.test ( diferencia). Si p > alfa-> se puede asumir que la diferencia en los tiempos de ejecución se acerca razonablemente a una distribución normal.
+
+En R: t.test
+
+*** T DE STUDENT PARA DOS MUESTRAS PAREADAS ***
+Los datos están pareados, es decir, cada observación de un conjunto tiene una correspondencia o conexión especial con exactamente una observación del otro. Una forma de uso común para examinar datos pareados es usar la diferencia entre cada par de observaciones. (MEDIA DE LAS DIFERENCIAS: restar muestra1 con muestra 2 y a eso sacarle la media y desviación estándar)
+
+*** T DE STUDENT PARA DOS MUESTRAS INDEPENDIENTES ***
+Se usa para comparar las medias de dos poblaciones en que las observaciones con que se cuenta no tienen relación con ninguna de las otras observaciones, ni influyen en su selección, ni en la misma ni en la otra muestra. (DIFERENCIA DE MEDIAS)
+
+Condiciones:
+1. Cada muestra cumple las condiciones para usar la distribución t. (Recordar aplicar Shapiro a cada muestra)
+2. Las muestras son independientes entre sí.
+
+************ PODER ESTADÍSTICO ************
+Poder: la probabilidad de correctamente rechazar H0 cuando es falsa (1 - beta).
+Tamaño del efecto: a diferencia entre dos grupos, o del valor observado con respecto al valor nulo.
+- El poder de la prueba aumenta mientras mayor es el tamaño del efecto (en este caso, la distancia entre el valor nulo y la media de la muestra).
+- A medida que el tamaño del efecto disminuye (es decir, el estimador se acerca al valor nulo), el poder se aproxima al nivel de significación.
+- Usar un valor de α más exigente (menor), manteniendo constante el tamaño de la muestra, hace que la curva de poder sea más baja para cualquier tamaño del efecto (lo que verifica la relación entre α y β).
+- Usar una muestra más grande aumenta el poder de la prueba para cualquier tamaño del efecto distinto de 0.
+
+En R: 
+power.t.test
+pwr.t.test: adecuada para una muestra, dos muestras pareadas o cuando ambas muestras tienen igual tamaño.
+pwr.t2n.test: prueba t para dos muestras independientes con diferentes tamaños
+
+************ INFERENCIA CON PROPORCIONES MUESTRALES ************
+En general, no conocemos la probabilidad de éxito p de la población, por lo que tenemos que usar el
+estimador puntual (correspondiente a la proporción de éxito de la muestra), denotado por pˆ.
+Este estimador se distribuye de manera cercana a la normal cuando se cumplen las siguientes condiciones:
+1. Las observaciones de la muestra son independientes.
+2. Se cumple la condición de éxito-fracaso, que establece que se espera observar al menos 10 observaciones correspondientes a éxito y al menos 10, correspondientes a fracasos. Matemáticamente, np ≥ 10
+y n(1 − p) ≥ 10.
+
+*** Método de Wald para una proporción ***
+** Método de Wald para dos proporciones ***
+Para estudiar la diferencia entre las proporciones de dos poblaciones, considerando para ello como estimador puntual la diferencia p1 − p2.
+Condiciones
+1. Cada proporción, por separado, sigue el modelo normal.
+2. Las dos muestras son independientes una de la otra.
+
+*** MÉTODO DE WILSON ***
+Opera del mismo modo que el de Wald
+
+En R: prop.test
+
+*** PODER Y PRUEBAS DE PROPORCIONES ***
+- power.prop.test
+- pwr.p.test(h, n, sig.level, power, alternative): para pruebas con una única proporción.
+- pwr.2p.test(h, n, sig.level, power, alternative): para pruebas con dos proporciones donde ambas muestras son de igual tamaño.
+- pwr.2p2n.test(h, n1, n2, sig.level, power, alternative): para pruebas con dos proporciones y muestras de diferente tamaño.
+- bsamsize: prueba de Wilson con dos muestras, calcula los tamaños de cada grupo
+
+************ INFERENCIA NO PARAMÉTRICA CON PROPORCIONES ************
+Pruebas para inferir acerca de proporciones cuyas hipótesis nula y alternativa no mencionan parámetro alguno. Es más, ninguna de ellas hace alguna suposición sobre la distribución de la población desde donde proviene la muestra analizada.
+
+*** PRUEBA CHI-CUADRADO DE PEARSON ***
+Para inferir con proporciones cuando disponemos de dos variables categóricas y una de ellas es dicotómica (es decir, tiene solo dos niveles).
+Condiciones:
+1. Las observaciones deben ser independientes entre sí.
+2. Debe haber a lo menos 5 observaciones esperadas en cada grupo.
+
+En R: chisq.test
+
+*** Prueba chi-cuadrado de homogeneidad
+Adecuada cuando queremos determinar si dos poblaciones (la variable dicotómica) presentan las mismas proporciones en los diferentes niveles de una variable categórica. Ej: ¿Son similares las preferencias de lenguaje de programación entre hombres y mujeres?
+
+Las hipótesis a contrastar son:
+H0: programadores hombres y mujeres tienen las mismas preferencias en lenguaje de programación favorito (ambas poblaciones muestras las mismas proporciones para cada lenguaje estudiado).
+HA: programadores hombres y mujeres tienen preferencias distintas en lenguajes de programación favorito.
+
+*** Prueba chi-cuadrado de bondad de ajuste
+permite comprobar si una distribución de frecuencias observada se asemeja a una
+distribución esperada. Usualmente se emplea para comprobar si una muestra es representativa de la
+población.  Ej: "...Ante el inminente riesgo de movilizaciones, el gerente necesita demostrar que el grupo seleccionado es una muestra representativa de sus programadores."
+
+En este ejemplo, las hipótesis a contrastar son:
+H0: las proporciones de especialistas en cada lenguaje son las mismas para la nómina y la muestra.
+HA: las proporciones de especialistas en cada lenguaje son diferentes en la nómina que en la muestra.
+
+*** Prueba chi-cuadrado de independencia
+Permite determinar si dos variables categóricas, de una misma población, son estadísticamente independientes o si, por el contrario, están relacionadas.
+
+En este caso, las hipótesis a docimar son:
+H0: las variables clase y forma del sombrero son independientes.
+HA: las variables clase y forma del sombrero están relacionadas.
+
+*** PRUEBAS PARA MUESTRAS PEQUEÑAS ***
+Para cuando no se cumple la condición de que las observaciones esperadas para cada grupo sean a lo menos 5.
+
+***Prueba exacta de Fisher
+Alternativa a la prueba χ2 de independencia en el caso de que ambas variables sean dicotómicas. Así, las hipótesis a contrastar son:
+H0: las variables son independientes.
+HA: las variables están relacionadas.
+
+En R: fisher.test
+
+*** Prueba de mcNemar
+Apropiada cuando una misma característica, con respuesta dicotómica, se mide en dos ocasiones diferentes para los mismos sujetos (muestras pareadas) y queremos determinar si se produce o no un cambio significativo entre ambas mediciones. 
+Las hipótesis asociadas a la prueba de mcNemar son:
+H0: no hay cambios significativos en las respuestas.
+HA: sí hay cambios significativos en las respuestas.
+
+En R: mcnemar.test
+
+*** PRUEBA Q DE COCHRAN ***
+Es una extensión de la prueba de mcNemar, adecuada cuando la variable de respuesta es dicotómica y la variable independiente tiene más de dos observaciones pareadas (cuando ambas variables son dicotómicas, esta prueba es equivalente a la de mcNemar).
+
+Las hipótesis contrastadas por la prueba Q de Cochran son:
+
+H0: la proporción de “éxitos” es la misma para todos los grupos.
+HA: la proporción de “éxitos” es distinta para al menos un grupo.
+
+Condiciones:
+1. La variable de respuesta es dicotómica.
+2. La variable independiente es categórica.
+3. Las observaciones son independientes entre sí.
+4. El tamaño de la muestra es lo suficientemente grande. Glen (2016a) sugiere que n · k ≥ 24, donde n es
+el tamaño de la muestra (la cantidad de instancias, para el ejemplo) y k, la cantidad de niveles en la
+variable independiente.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
