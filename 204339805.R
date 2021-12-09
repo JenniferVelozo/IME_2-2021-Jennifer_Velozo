@@ -54,7 +54,7 @@ g <- ggqqplot(estaturas, x = "estaturas", color = "Steelblue", xlab = "Teórico"
               title = "Gráfico Q-Q muestra v/s distr. normal")
 print(g)
 
-valor_nulo <- 1.95
+valor_nulo <- 1.65
 alfa <- 0.05
 
 prueba <- t.test (estaturas, alternative = "greater",mu = valor_nulo ,conf.level = 1 - alfa )
@@ -63,7 +63,8 @@ print ( prueba )
 
 
 ################## CONCLUSIONES ##################
-# De acuerdo a los resultados arrojados por la prueba, se obtiene un p-value = 1, 
-# el cual es mucho mayor que nuestro nivel de significación alfa = 0.05. Es por lo anterior, que se 
-# se falla al rechazar la hipótesis nula. Es decir, no hay evidencia suficiente para concluir que 
+# De acuerdo a los resultados arrojados por la prueba, se obtiene un p-value 
+# mucho menor que nuestro nivel de significación alfa = 0.05. Es por lo anterior, que se 
+# rechazala hipótesis nula en favor de la hipótesis alternativa. 
+# Es decir, se puede afirmar con un 95% de confianza que 
 # la estatura promedio de los reclutas es superior a 1.65 [m].
