@@ -25,8 +25,9 @@ normalidad_si <- shapiro.test (muestra_si_anemia)
 print (normalidad_si)
 
 # Se obtienen las medias de cada muestra 
-media_si_anemia <- mean(muestra_si_anemia)
 media_no_anemia <- mean(muestra_no_anemia)
+media_si_anemia <- mean(muestra_si_anemia)
+
 
 # Se obtiene la desviación estándar de cada muestra
 sd_si_anemia <- sd(muestra_si_anemia)
