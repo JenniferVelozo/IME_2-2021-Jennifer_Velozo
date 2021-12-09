@@ -1,4 +1,4 @@
-library ( dplyr )
+library (dplyr)
 library(pwr)
 
 # Lectura del archivo 
@@ -13,9 +13,9 @@ no_anemia <- no_anemia[["creatinine_phosphokinase"]]
 
 si_anemia <- datos %>% filter(anaemia == 1)
 si_anemia <- si_anemia[["creatinine_phosphokinase"]]
-
-muestra_no_anemia<-sample(no_anemia,25)
 muestra_si_anemia<-sample(si_anemia,25)
+muestra_no_anemia<-sample(no_anemia,25)
+
 
 
 # Verifiación de condiciones para usar t de Student
@@ -63,7 +63,8 @@ print(poder)
 
 
 
-
+# Tiene una prob de 66% de rechazar correctamente h0 cuando en realidad es falsa, y una prob
+# de 34% de cometer un error de tipo 2. 
 
 
 
